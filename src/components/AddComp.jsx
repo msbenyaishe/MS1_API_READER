@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function AddComp() {
@@ -10,6 +10,14 @@ export default function AddComp() {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Set CSRF token for all requests
+    const token = document.querySelector('meta[name="csrf-token"]')?.content;
+    if (token) {
+      axios.defaults.headers.common['X-CSRF-TOKEN'] = token;
+    }
+  }, []);
 
   const submit = async () => {
     try {
@@ -33,16 +41,12 @@ export default function AddComp() {
         data.append("image", form.image);
       }
 
-      console.log("Submitting to:", `${import.meta.env.VITE_API_URL}/products`);
-      
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/products`,
         data
       );
 
-      console.log("Success:", response.data);
       alert("Product added successfully");
-      
       setForm({
         nom: "",
         prix: "",
@@ -52,7 +56,7 @@ export default function AddComp() {
     } catch (err) {
       const errorMsg = err.response?.data?.message || err.message || "An error occurred";
       setError(errorMsg);
-      console.error("Error details:", err.response?.data || err);
+      console.error("Error:", err);
     } finally {
       setLoading(false);
     }
@@ -61,34 +65,22 @@ export default function AddComp() {
   return (
     <div>
       <h2>Add Product</h2>
-
-      {error && <div style={{color: "red", marginBottom: "10px"}}>{error}</div>}
-
-      <input 
-        placeholder="Name"
+      {error && <div style={{color: "red"}}>{error}</div>}
+      
+      <input placeholder="Name"
         value={form.nom}
-        onChange={e => setForm({...form, nom: e.target.value})} 
-      />
+        onChange={e => setForm({...form, nom: e.target.value})} />
 
-      <input 
-        placeholder="Price"
-        type="number"
-        step="0.01"
+      <input placeholder="Price" type="number" step="0.01"
         value={form.prix}
-        onChange={e => setForm({...form, prix: e.target.value})} 
-      />
+        onChange={e => setForm({...form, prix: e.target.value})} />
 
-      <input 
-        placeholder="Category"
+      <input placeholder="Category"
         value={form.categorie}
-        onChange={e => setForm({...form, categorie: e.target.value})} 
-      />
+        onChange={e => setForm({...form, categorie: e.target.value})} />
 
-      <input 
-        type="file"
-        accept="image/*"
-        onChange={e => setForm({...form, image: e.target.files[0] || null})} 
-      />
+      <input type="file" accept="image/*"
+        onChange={e => setForm({...form, image: e.target.files[0] || null})} />
 
       <button onClick={submit} disabled={loading}>
         {loading ? "Adding..." : "Add Product"}
