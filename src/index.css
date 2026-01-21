@@ -653,37 +653,37 @@ body {
 ================================ */
 @media (max-width: 768px) {
   /* 1. Reduce Page Padding */
-  .msone-main-container {
-    padding: var(--spacing-xl) var(--spacing-sm); /* Smaller 1rem padding */
+  .msone-main-container { 
+    padding: var(--spacing-lg) var(--spacing-lg);
   }
 
   /* 2. Stack Filter Bar (Search & Select) */
   .msone-filter-bar {
-    flex-direction: column; /* Stacks search on top of category */
+    flex-direction: column;
     gap: var(--spacing-sm);
   }
 
   /* 3. Adjust Headers */
   .msone-card-title, 
   .msone-hero-title {
-    font-size: var(--font-size-3xl); /* Smaller text for small screens */
+    font-size: var(--font-size-3xl);
     margin-bottom: var(--spacing-md);
   }
 
   /* 4. Handle Form Spacing */
   .msone-minimal-form {
-    padding: var(--spacing-md); /* Less internal card padding */
+    padding: var(--spacing-md);
     gap: var(--spacing-md);
   }
 
   .msone-input, 
   .btn-msone-modern {
-    height: 54px; /* Slightly shorter for better thumb reach */
+    height: 54px;
   }
 
   /* 5. Table Responsiveness */
   .msone-table-container {
-    overflow-x: auto; /* Allows horizontal swipe on phones */
+    overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     border-radius: var(--radius-md);
   }
@@ -701,15 +701,26 @@ body {
 
   /* 6. Navbar Adjustments */
   .msone-nav-content {
-    padding: 0 var(--spacing-md);
+    flex-direction: column;
+    gap: var(--spacing-md);
+    text-align: center;
+  }
+
+  .msone-logo-area {
+    justify-content: center;
+    width: 100%;
   }
 
   .msone-nav-links {
-    gap: var(--spacing-md); /* Tighten link spacing */
+    width: 100%;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    display: flex;
   }
 
   .msone-nav-links a {
     font-size: var(--font-size-sm);
+    padding: 4px 0;
   }
 
   .msone-logo-img {
@@ -718,12 +729,14 @@ body {
   }
 }
 
-/* Extra Small Phones (Optional) */
+/* ===============================
+   Extra Small Phones
+================================ */
 @media (max-width: 480px) {
   .msone-nav-links {
-    display: none; /* Usually, you'd add a burger menu here */
+    display: none;
   }
-  
+
   .msone-hero-title {
     font-size: var(--font-size-xl);
   }
