@@ -12,10 +12,9 @@ export default function AddComp() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Set CSRF token for all requests
     const token = document.querySelector('meta[name="csrf-token"]')?.content;
     if (token) {
-      axios.defaults.headers.common['X-CSRF-TOKEN'] = token;
+      axios.defaults.headers.common["X-CSRF-TOKEN"] = token;
     }
   }, []);
 
@@ -28,63 +27,87 @@ export default function AddComp() {
         throw new Error("Please fill in all required fields");
       }
 
-      if (isNaN(form.prix) || form.prix <= 0) {
-        throw new Error("Price must be a valid positive number");
-      }
-
       const data = new FormData();
       data.append("nom", form.nom.trim());
       data.append("prix", parseFloat(form.prix));
       data.append("categorie", form.categorie.trim());
-      
+
       if (form.image) {
         data.append("image", form.image);
       }
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/products`,
-        data
-      );
+      await axios.post(`${import.meta.env.VITE_API_URL}/products`, data);
 
       alert("Product added successfully");
-      setForm({
-        nom: "",
-        prix: "",
-        categorie: "",
-        image: null,
-      });
+      setForm({ nom: "", prix: "", categorie: "", image: null });
     } catch (err) {
       const errorMsg = err.response?.data?.message || err.message || "An error occurred";
       setError(errorMsg);
-      console.error("Error:", err);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div>
-      <h2>Add Product</h2>
-      {error && <div style={{color: "red"}}>{error}</div>}
-      
-      <input placeholder="Name"
-        value={form.nom}
-        onChange={e => setForm({...form, nom: e.target.value})} />
+    <div className="msone-main-container fade-in-up">
+      <div className="msone-elegant-wrapper">
+        <h2 className="msone-hero-title">Add Product</h2>
+        
+        {error && <div className="msone-minimal-error">{error}</div>}
 
-      <input placeholder="Price" type="number" step="0.01"
-        value={form.prix}
-        onChange={e => setForm({...form, prix: e.target.value})} />
+        {/* This form is now "Free" with no background or border */}
+        <div className="msone-minimal-form-free">
+          <div className="msone-field">
+            <label className="msone-label">Product Name</label>
+            <input
+              placeholder="Name"
+              value={form.nom}
+              onChange={(e) => setForm({ ...form, nom: e.target.value })}
+              className="msone-input"
+            />
+          </div>
 
-      <input placeholder="Category"
-        value={form.categorie}
-        onChange={e => setForm({...form, categorie: e.target.value})} />
+          <div className="msone-field">
+            <label className="msone-label">Price</label>
+            <input
+              placeholder="Price"
+              type="number"
+              step="0.01"
+              value={form.prix}
+              onChange={(e) => setForm({ ...form, prix: e.target.value })}
+              className="msone-input"
+            />
+          </div>
 
-      <input type="file" accept="image/*"
-        onChange={e => setForm({...form, image: e.target.files[0] || null})} />
+          <div className="msone-field">
+            <label className="msone-label">Category</label>
+            <input
+              placeholder="Category"
+              value={form.categorie}
+              onChange={(e) => setForm({ ...form, categorie: e.target.value })}
+              className="msone-input"
+            />
+          </div>
 
-      <button onClick={submit} disabled={loading}>
-        {loading ? "Adding..." : "Add Product"}
-      </button>
+          <div className="msone-field">
+            <label className="msone-label">Product Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setForm({ ...form, image: e.target.files[0] || null })}
+              className="msone-input file-input-padding"
+            />
+          </div>
+
+          <button 
+            onClick={submit} 
+            disabled={loading} 
+            className="btn-msone-modern"
+          >
+            {loading ? "Adding..." : "Add Product"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
