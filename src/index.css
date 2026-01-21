@@ -728,16 +728,3 @@ body {
     width: 45px;
   }
 }
-
-/* ===============================
-   Extra Small Phones
-================================ */
-@media (max-width: 480px) {
-  .msone-nav-links {
-    display: none;
-  }
-
-  .msone-hero-title {
-    font-size: var(--font-size-xl);
-  }
-}
