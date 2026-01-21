@@ -16,7 +16,6 @@ export default function AddComp() {
       setError("");
       setLoading(true);
 
-      // Validate form
       if (!form.nom.trim() || !form.prix || !form.categorie.trim()) {
         throw new Error("Please fill in all required fields");
       }
@@ -30,7 +29,6 @@ export default function AddComp() {
       data.append("prix", parseFloat(form.prix));
       data.append("categorie", form.categorie.trim());
       
-      // Only append image if one was selected
       if (form.image) {
         data.append("image", form.image);
       }
@@ -39,18 +37,12 @@ export default function AddComp() {
       
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/products`,
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        data
       );
 
       console.log("Success:", response.data);
       alert("Product added successfully");
       
-      // Reset form
       setForm({
         nom: "",
         prix: "",
