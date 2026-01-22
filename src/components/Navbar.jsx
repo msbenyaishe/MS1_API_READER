@@ -7,10 +7,11 @@ export default function Navbar() {
         {/* Brand Area with Image Logo */}
         <div className="msone-logo-area">
           <img 
-            src="https://tpe-commerce-hpbotveqz-mohamed-saids-projects-5a702ee0.vercel.app/imgs/MS1-4.png" 
+            src="/images/MS1-4.png" 
             alt="MS1 Logo" 
             className="msone-logo-img" 
           />
+
           <span className="msone-logo-text">Manager</span>
         </div>
         
